@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product &amp; Engineering — Proposed Operating Structure · HNL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15212C;--paper:#F3F5F7;--surface:#FFFFFF;--red:#D81E27;--red-deep:#9E1219;
+    --steel:#1F5C8B;--steel-bg:#EAF1F7;--steel-line:#BCD3E6;--slate:#5C6A77;
+    --line:#DCE2E8;--line-strong:#C3CCD4;--amber:#C57A0A;--amber-bg:#F3EEE6;--amber-line:#E0D3BE;
+    --font-display:'Space Grotesk',sans-serif;--font-body:'IBM Plex Sans',sans-serif;--font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(243,245,247,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .brand{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.04em;color:var(--ink);font-weight:500}
+  .brand b{color:var(--red)}
+  .nav-links{display:flex;gap:22px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+  .nav-links a{color:var(--slate);text-decoration:none;transition:color .15s}
+  .nav-links a:hover{color:var(--red)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  .eyebrow{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:500;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .eyebrow::after{content:"";height:1px;flex:1;max-width:90px;background:var(--line-strong)}
+  h1{font-family:var(--font-display);font-weight:600;font-size:clamp(2.3rem,5.4vw,3.85rem);line-height:1.04;letter-spacing:-.02em}
+  h2{font-family:var(--font-display);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.1;letter-spacing:-.015em}
+  h3{font-family:var(--font-display);font-weight:600;font-size:1.16rem;letter-spacing:-.01em}
+  .lead{font-size:1.13rem;color:var(--slate);max-width:64ch}
+  .accent{color:var(--red)}
+
+  .section{padding:84px 0;border-top:1px solid var(--line)}
+  .section-head{max-width:72ch;margin-bottom:44px}
+  .section-head h2{margin-bottom:18px}
+  .section-head p{color:var(--slate);font-size:1.06rem}
+
+  .hero{padding:78px 0 70px}
+  .hero h1{margin-bottom:26px;max-width:18ch}
+  .hero .lead{font-size:1.18rem;margin-bottom:34px}
+  .busline{display:flex;align-items:center;gap:0;margin:34px 0 0;max-width:520px}
+  .busline .bus{height:4px;background:var(--ink);flex:1;border-radius:2px}
+  .busline .tap{width:11px;height:11px;background:var(--surface);border:2px solid var(--steel);transform:rotate(45deg);margin:0 26px}
+  .busline .src{width:13px;height:13px;background:var(--red);border-radius:50%}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+  .btn{font-family:var(--font-mono);font-size:.82rem;letter-spacing:.03em;text-decoration:none;padding:12px 22px;border-radius:7px;transition:transform .12s,background .15s,border-color .15s;display:inline-block;cursor:pointer}
+  .btn-primary{background:var(--ink);color:#fff;border:1px solid var(--ink)}
+  .btn-primary:hover{background:#000;transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-1px)}
+
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:840px){.g3{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px 24px}
+  .card .tag{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;display:block}
+  .card h3{margin-bottom:10px}
+  .card p{color:var(--slate);font-size:.97rem}
+  .card .arrow{color:var(--red);font-weight:600}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 22px;display:flex;flex-direction:column}
+  .stat .num{font-family:var(--font-mono);font-weight:500;font-size:2.6rem;line-height:1;color:var(--ink)}
+  .stat .num span{color:var(--red)}
+  .stat .lbl{font-size:.9rem;color:var(--ink);margin-top:10px;font-weight:500}
+  .stat-detail{border-top:1px solid var(--line);margin-top:14px;padding-top:12px;font-size:.79rem;color:var(--slate);line-height:1.5}
+
+  /* diagram */
+  .diagram-wrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px 24px 18px;margin-bottom:18px}
+  .diagram-wrap svg{width:100%;height:auto;display:block}
+  .diag-note{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.04em;color:var(--slate);text-align:center;margin-top:8px}
+  .diag-note b{color:var(--red)}
+  svg .role-hit{cursor:pointer}
+  svg .role-hit:hover{fill:var(--red)}
+  svg .em-hit{cursor:pointer}
+
+  /* roles */
+  .role-lead{background:var(--ink);color:#fff;border:none;margin-bottom:18px}
+  .role-lead .tag{color:#A9B7C2}
+  .role-lead h3{color:#fff}
+  .role-lead p{color:#C7D2DB}
+  .role-lead .jd-cue{color:#fff;border-top-color:rgba(255,255,255,.16)}
+  .roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .role-card{cursor:pointer;transition:transform .14s,border-color .14s,box-shadow .14s;display:flex;flex-direction:column}
+  .role-card:hover{transform:translateY(-2px);border-color:var(--steel-line);box-shadow:0 6px 22px rgba(21,33,44,.07)}
+  .role-card:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+  .who{font-family:var(--font-mono);font-size:.78rem;color:var(--steel);display:block;margin-bottom:12px;letter-spacing:.02em}
+  .role-lead .who{color:var(--red)}
+  .role-card p{flex:1}
+  .jd-cue{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:.74rem;letter-spacing:.03em;color:var(--steel);display:flex;align-items:center;gap:7px}
+  .jd-cue .ic{transition:transform .15s}
+  .role-card:hover .jd-cue .ic{transform:translateX(3px)}
+
+  /* tiers */
+  .tier{position:relative;padding-left:18px}
+  .tier::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--red);border-radius:2px}
+  .tier .tnum{font-family:var(--font-mono);font-size:.78rem;color:var(--red);font-weight:500;letter-spacing:.08em}
+
+  /* lifecycle */
+  .lc-label{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);margin:34px 0 14px}
+  .lifecycle{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+  .stage{flex:1;min-width:148px;border-radius:10px;padding:14px 15px;border:1px solid var(--line-strong);background:var(--surface)}
+  .stage .own{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px;color:var(--slate)}
+  .stage .nm{font-family:var(--font-display);font-weight:600;font-size:.97rem}
+  .stage.pe{background:var(--steel-bg);border-color:var(--steel-line)}
+  .stage.pe .own{color:var(--steel)}
+  .stage.award{background:var(--ink);border-color:var(--ink)}
+  .stage.award .nm{color:#fff}.stage.award .own{color:#A9B7C2}
+  .stage.proj{background:var(--amber-bg);border-color:var(--amber-line)}
+  .stage.proj .own{color:var(--amber)}
+  .transfer{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-top:18px}
+  .transfer h4{font-family:var(--font-display);font-size:1rem;margin-bottom:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{font-family:var(--font-mono);font-size:.76rem;color:var(--ink);background:var(--paper);border:1px solid var(--line-strong);border-radius:7px;padding:7px 12px}
+  .post-award{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  @media(max-width:700px){.post-award{grid-template-columns:1fr}}
+  .pa-col{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--surface)}
+  .pa-col.retain{border-top:3px solid var(--steel)}
+  .pa-col.own{border-top:3px solid var(--amber)}
+  .pa-col h4{font-family:var(--font-display);font-size:1rem;margin-bottom:12px}
+  .pa-col ul{list-style:none}
+  .pa-col li{font-size:.94rem;color:var(--slate);padding:5px 0 5px 18px;position:relative}
+  .pa-col li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%;background:var(--line-strong)}
+  .lc-summary{margin-top:20px;font-size:.98rem;color:var(--ink);border-left:3px solid var(--red);padding-left:18px}
+
+  /* funding */
+  .fund-card{background:var(--surface);border:1px solid var(--red);border-radius:14px;padding:30px 28px}
+  .fund-card .tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:14px}
+  .fund-card h3{font-size:1.4rem;margin-bottom:14px}
+  .fund-card p{color:var(--slate);font-size:1.02rem;max-width:70ch}
+  .why-not{margin-top:20px;font-family:var(--font-mono);font-size:.86rem;line-height:1.6;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+  .why-not b{color:var(--ink);font-weight:500}
+
+  /* action plan */
+  .next-actions{background:var(--ink);color:#fff;border-radius:14px;padding:30px 28px;margin-bottom:36px}
+  .next-actions .na-tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .next-actions ol{list-style:none;counter-reset:na}
+  .next-actions li{counter-increment:na;position:relative;padding:11px 0 11px 44px;border-bottom:1px solid rgba(255,255,255,.1);color:#E4EAEF;font-size:1rem}
+  .next-actions li:last-child{border-bottom:none}
+  .next-actions li::before{content:counter(na);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:7px;background:var(--red);color:#fff;font-family:var(--font-mono);font-size:.85rem;display:flex;align-items:center;justify-content:center;font-weight:500}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:26px;padding:30px 0;border-bottom:1px solid var(--line)}
+  @media(max-width:720px){.step{grid-template-columns:1fr;gap:14px}}
+  .step:last-of-type{border-bottom:none}
+  .step .sn{font-family:var(--font-mono);font-size:.8rem;color:var(--red);letter-spacing:.06em;white-space:nowrap;padding-top:4px}
+  .step h3{margin-bottom:8px}
+  .step .why{color:var(--slate);font-size:1rem;margin-bottom:18px;max-width:64ch}
+  .action-points{list-style:none;display:grid;gap:10px}
+  .ap{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 16px}
+  .ap .task{font-size:.97rem;font-weight:500;color:var(--ink)}
+  .ap .meta{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.02em;color:var(--slate);margin-top:5px}
+  .ap .meta b{color:var(--steel);font-weight:500}
+  .coo-note{margin-top:30px;font-size:.98rem;color:var(--slate);border-left:3px solid var(--line-strong);padding-left:18px}
+
+  /* modal */
+  .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(21,33,44,.55);display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--surface);border-radius:16px;max-width:660px;width:100%;padding:38px 38px 34px;position:relative;box-shadow:0 24px 70px rgba(21,33,44,.3);animation:pop .22s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @media(max-width:560px){.modal{padding:30px 22px}}
+  .modal-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--slate);font-size:1.3rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+  .modal-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+  .jd-tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+  #jdTitle{font-family:var(--font-display);font-size:1.55rem;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;padding-right:30px}
+  .jd-meta{font-family:var(--font-mono);font-size:.8rem;color:var(--slate);padding-bottom:20px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .jd-meta span{color:var(--steel)}
+  .jd-sec{padding:18px 0;border-bottom:1px solid var(--line)}
+  .jd-sec:last-child{border-bottom:none}
+  .jd-sec h4{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:10px}
+  .jd-sec p{color:var(--ink);font-size:.97rem;line-height:1.62}
+  .jd-sec ul{list-style:none}
+  .jd-sec li{font-size:.96rem;color:var(--ink);line-height:1.55;padding:5px 0 5px 20px;position:relative}
+  .jd-sec li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%;background:var(--steel)}
+
+  footer{padding:48px 0 60px;border-top:1px solid var(--line)}
+  .foot{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.03em;color:var(--slate);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .foot b{color:var(--ink);font-weight:500}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.modal{animation:none}}
+
+  @media print{nav{position:static}.section,.hero{padding:30px 0}.reveal{opacity:1;transform:none}.btn,.cta-row,.modal-overlay{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand"><b>HNL</b> · Product &amp; Engineering</div>
+    <div class="nav-links">
+      <a href="#case">Case</a><a href="#mandate">Mandate</a><a href="#structure">Structure</a>
+      <a href="#flow">Flow</a><a href="#lines">Lines</a><a href="#funding">Funding</a><a href="#build">Build</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap reveal">
+    <div class="eyebrow">Proposed operating structure · HNL · June 2026</div>
+    <h1>One mandate, with a <span class="accent">real team</span> behind it.</h1>
+    <p class="lead">The supplier SPOC directive set the right goal — a single, coordinated commercial front. This lays out how to deliver it at HNL's scale: as a department with defined roles, defined process, and clear lines to Sales and Projects — not a single overloaded desk.</p>
+    <div class="cta-row">
+      <a href="#structure" class="btn btn-primary">See the structure</a>
+      <a href="#case" class="btn btn-ghost">Why a department</a>
+    </div>
+    <div class="busline" aria-hidden="true">
+      <span class="src"></span><span class="bus"></span><span class="tap"></span>
+      <span class="bus"></span><span class="tap"></span><span class="bus"></span><span class="tap"></span><span class="bus"></span>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="case">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The case</div>
+      <h2>The goal is right. The mechanism needs a team.</h2>
+      <p>The directive correctly named a real problem. The fix is not to route everything through one person — it is to build the function that makes the goal achievable.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card reveal"><span class="tag">Problem 01</span><h3>Scattered supplier contact</h3><p>Multiple teams approaching the same principals independently dilutes leverage and confuses partners. <span class="arrow">→</span> The function consolidates commercial contact behind one accountable owner.</p></div>
+      <div class="card reveal"><span class="tag">Problem 02</span><h3>Everything on one desk</h3><p>A single contact for eight categories across every business unit is a bottleneck — and a single point of blame. <span class="arrow">→</span> A department distributes execution while keeping governance central.</p></div>
+      <div class="card reveal"><span class="tag">Problem 03</span><h3>Product and Sales conflated</h3><p>Positioning and pricing were bundled with bid-closing and customer ownership. <span class="arrow">→</span> They are different disciplines: Product governs cost-in and the solution; Sales owns the customer and the close.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="mandate">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The mandate</div>
+      <h2>We own the pre-award engine: supplier → solution → costing → handoff.</h2>
+      <p>Product &amp; Engineering is an enabling function. It does not book revenue — it makes Sales win and Projects deliver. It is the central interface to principals and suppliers, the home of technical solution design, and the custodian of product, pricing, and documentation.</p>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><div class="num" data-to="8">0</div><span class="lbl">Product categories owned</span><div class="stat-detail">Generators · UPS · batteries · solar · rectifiers · BESS · telecom &amp; DC power</div></div>
+      <div class="stat reveal"><div class="num" data-to="9">0</div><span class="lbl">Roles in the optimum team</span><div class="stat-detail">1 manager · 3 product · 2 applications · 2 commercial · 1 enablement</div></div>
+      <div class="stat reveal"><div class="num"><span>1</span></div><span class="lbl">Accountable commercial front</span><div class="stat-detail">One owner for every principal &amp; supplier engagement across HNL</div></div>
+      <div class="stat reveal"><div class="num" data-to="14">0</div><span class="lbl">Directive responsibilities consolidated</span><div class="stat-detail">From the SPOC circular — now carried across the team, not one desk</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="structure">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The structure</div>
+      <h2>One manager, four pillars.</h2>
+      <p>Shown at full strength — the optimum build. Lanes can be compressed by the COO; the functions cannot. Read it like a distribution board: the manager is the busbar, each pillar a panel it feeds.</p>
+    </div>
+
+    <div class="diagram-wrap reveal">
+      <svg viewBox="0 0 1080 430" role="img" aria-labelledby="orgtitle orgdesc">
+        <title id="orgtitle">Product &amp; Engineering department single-line structure</title>
+        <desc id="orgdesc">An engineering manager feeds a busbar distributing to four pillars: product management, applications engineering, commercial and supplier operations, and knowledge and enablement.</desc>
+        <rect class="em-hit" x="430" y="22" width="220" height="60" rx="9" fill="#15212C" onclick="openJD('em')"/>
+        <text class="em-hit" x="540" y="48" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="16" font-weight="600" fill="#ffffff" onclick="openJD('em')">Engineering Manager</text>
+        <text class="em-hit" x="540" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#D81E27" onclick="openJD('em')">DEPARTMENT HEAD · ALI NAQVI</text>
+        <line x1="540" y1="82" x2="540" y2="120" stroke="#15212C" stroke-width="2"/>
+        <rect x="120" y="119" width="840" height="5" rx="2.5" fill="#15212C"/>
+        <g stroke="#1F5C8B" stroke-width="1.6">
+          <line x1="225" y1="124" x2="225" y2="176"/><line x1="455" y1="124" x2="455" y2="176"/>
+          <line x1="685" y1="124" x2="685" y2="176"/><line x1="855" y1="124" x2="855" y2="176"/>
+        </g>
+        <g fill="#FFFFFF" stroke="#1F5C8B" stroke-width="2">
+          <rect x="219" y="115" width="12" height="12" transform="rotate(45 225 121)"/>
+          <rect x="449" y="115" width="12" height="12" transform="rotate(45 455 121)"/>
+          <rect x="679" y="115" width="12" height="12" transform="rotate(45 685 121)"/>
+          <rect x="849" y="115" width="12" height="12" transform="rotate(45 855 121)"/>
+        </g>
+
+        <rect x="130" y="178" width="190" height="226" rx="10" fill="#FFFFFF" stroke="#C3CCD4" stroke-width="1"/>
+        <rect x="130" y="178" width="190" height="40" rx="10" fill="#EAF1F7"/><rect x="130" y="208" width="190" height="10" fill="#EAF1F7"/>
+        <text x="146" y="203" font-family="Space Grotesk,sans-serif" font-size="13.5" font-weight="600" fill="#15212C">Product management</text>
+        <text x="146" y="238" font-family="IBM Plex Mono,monospace" font-size="10" fill="#5C6A77">3 PRODUCT SPECIALISTS</text>
+        <g font-family="IBM Plex Sans,sans-serif" font-size="12.5" fill="#15212C">
+          <text class="role-hit" x="146" y="270" onclick="openJD('pg')">Power generation</text>
+          <text class="role-hit" x="146" y="304" onclick="openJD('dc')">Critical &amp; DC power</text>
+          <text class="role-hit" x="146" y="338" onclick="openJD('rs')">Renewables &amp; storage</text>
+        </g>
+        <text x="146" y="384" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#5C6A77">Portfolio · supplier strategy</text>
+
+        <rect x="360" y="178" width="190" height="226" rx="10" fill="#FFFFFF" stroke="#C3CCD4" stroke-width="1"/>
+        <rect x="360" y="178" width="190" height="40" rx="10" fill="#EAF1F7"/><rect x="360" y="208" width="190" height="10" fill="#EAF1F7"/>
+        <text x="376" y="203" font-family="Space Grotesk,sans-serif" font-size="13.5" font-weight="600" fill="#15212C">Applications eng.</text>
+        <text x="376" y="238" font-family="IBM Plex Mono,monospace" font-size="10" fill="#5C6A77">PRE-SALES TECHNICAL</text>
+        <g font-family="IBM Plex Sans,sans-serif" font-size="12.5" fill="#15212C">
+          <text class="role-hit" x="376" y="270" onclick="openJD('se')">Solutions eng. (lead)</text>
+          <text class="role-hit" x="376" y="304" onclick="openJD('ae')">Applications engineer</text>
+        </g>
+        <text x="376" y="384" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#5C6A77">Sizing · BOQs · proposals</text>
+
+        <rect x="590" y="178" width="190" height="226" rx="10" fill="#FFFFFF" stroke="#C3CCD4" stroke-width="1"/>
+        <rect x="590" y="178" width="190" height="40" rx="10" fill="#EAF1F7"/><rect x="590" y="208" width="190" height="10" fill="#EAF1F7"/>
+        <text x="606" y="203" font-family="Space Grotesk,sans-serif" font-size="13.5" font-weight="600" fill="#15212C">Commercial ops</text>
+        <text x="606" y="238" font-family="IBM Plex Mono,monospace" font-size="10" fill="#5C6A77">SUPPLIER &amp; DATA</text>
+        <g font-family="IBM Plex Sans,sans-serif" font-size="12.5" fill="#15212C">
+          <text class="role-hit" x="606" y="270" onclick="openJD('cc')">Commercial coordinator</text>
+          <text class="role-hit" x="606" y="304" onclick="openJD('sd')">Systems &amp; data</text>
+        </g>
+        <text x="606" y="384" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#5C6A77">Quotes · pricing · records</text>
+
+        <rect x="820" y="178" width="130" height="226" rx="10" fill="#FFFFFF" stroke="#C3CCD4" stroke-width="1"/>
+        <rect x="820" y="178" width="130" height="40" rx="10" fill="#EAF1F7"/><rect x="820" y="208" width="130" height="10" fill="#EAF1F7"/>
+        <text x="836" y="203" font-family="Space Grotesk,sans-serif" font-size="12.5" font-weight="600" fill="#15212C">Enablement</text>
+        <text x="836" y="238" font-family="IBM Plex Mono,monospace" font-size="10" fill="#5C6A77">KNOWLEDGE</text>
+        <g font-family="IBM Plex Sans,sans-serif" font-size="12.5" fill="#15212C">
+          <text class="role-hit" x="836" y="270" onclick="openJD('dt')">Docs &amp; training</text>
+        </g>
+        <text x="836" y="384" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#5C6A77">Library · certs</text>
+      </svg>
+    </div>
+    <div class="diag-note reveal"><b>Click any role</b> — on the diagram or the cards below — to open its full job description.</div>
+
+    <div style="margin-top:34px">
+      <div class="card role-lead role-card reveal" data-jd="em" role="button" tabindex="0" aria-label="View job description: Engineering Manager">
+        <span class="tag">Lead · reports to COO</span>
+        <h3>Engineering Manager</h3>
+        <span class="who">You</span>
+        <p>Owns supplier and product strategy, commercial governance, pricing approval, the roadmap and the technical engine — end to end. Not deal-closing. Not delivery.</p>
+        <span class="jd-cue">View job description <span class="ic">→</span></span>
+      </div>
+
+      <div class="roles-grid">
+        <div class="card role-card reveal" data-jd="pg" role="button" tabindex="0" aria-label="View job description: Product Specialist, Power Generation"><span class="tag">Product · Power Generation</span><h3>Product Specialist</h3><span class="who">Power Generation</span><p>DG sets, switchgear, ATS — supplier, product, pricing and competitive intelligence for the line.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="dc" role="button" tabindex="0" aria-label="View job description: Product Specialist, Critical and DC Power"><span class="tag">Product · Critical &amp; DC</span><h3>Product Specialist</h3><span class="who">Critical &amp; DC Power</span><p>UPS, rectifiers, batteries, telecom and DC power systems across the critical-power line.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="rs" role="button" tabindex="0" aria-label="View job description: Product Specialist, Renewables and Storage"><span class="tag">Product · Renewables</span><h3>Product Specialist</h3><span class="who">Renewables &amp; Storage</span><p>Solar PV, BESS and hybrid systems — supplier and product ownership for the renewables line.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="se" role="button" tabindex="0" aria-label="View job description: Solutions Engineer Lead"><span class="tag">Applications</span><h3>Solutions Engineer</h3><span class="who">Lead</span><p>Leads the pre-sales engine: sizing, BOQs, single-lines, technical proposals and equivalence documents.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="ae" role="button" tabindex="0" aria-label="View job description: Applications Engineer"><span class="tag">Applications</span><h3>Applications Engineer</h3><span class="who">Pre-sales support</span><p>Supports sizing, drawings, datasheets and proposal preparation across the product lines.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="cc" role="button" tabindex="0" aria-label="View job description: Commercial Coordinator"><span class="tag">Commercial ops</span><h3>Commercial Coordinator</h3><span class="who">Quotes · pricing · records</span><p>Quotation intake and tracking, pricing-database upkeep, registrations and the supplier engagement log.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="sd" role="button" tabindex="0" aria-label="View job description: Systems and Data"><span class="tag">Commercial ops</span><h3>Systems &amp; Data</h3><span class="who">System of record</span><p>Owns the dashboard and pricing/quotation data as the single, clean source of truth.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+        <div class="card role-card reveal" data-jd="dt" role="button" tabindex="0" aria-label="View job description: Documentation and Training"><span class="tag">Enablement</span><h3>Documentation &amp; Training</h3><span class="who">Knowledge custodian</span><p>Central technical library, certifications and training coordination to build organisational capability.</p><span class="jd-cue">View job description <span class="ic">→</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="flow">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How work flows</div>
+      <h2>Centralised authority, distributed execution.</h2>
+      <p>The directive's goal — leverage and consistency — is achieved by owning the commercial relationship, not by being the only person who ever speaks to a supplier. Engagement runs in three tiers, and the work moves through a defined lifecycle into Projects.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card tier reveal"><span class="tnum">Tier 01</span><h3>Routine technical contact</h3><p>Project and technical teams engage suppliers directly for datasheets and spec clarifications — logged in the system. High volume, no queue.</p></div>
+      <div class="card tier reveal"><span class="tnum">Tier 02</span><h3>Quotations &amp; pricing</h3><p>RFQs, pricing and commercial terms originate from or are approved by the function. This is where leverage lives, so this is where control sits.</p></div>
+      <div class="card tier reveal"><span class="tnum">Tier 03</span><h3>Negotiation &amp; partnerships</h3><p>Strategic pricing, exclusivity and principal partnerships are led by the Engineering Manager and escalated through the matrix.</p></div>
+    </div>
+
+    <div class="reveal">
+      <div class="lc-label">The lifecycle — and where each function owns it</div>
+      <div class="lifecycle">
+        <div class="stage sales"><span class="own">Sales</span><span class="nm">Opportunity</span></div>
+        <div class="stage pe"><span class="own">Product &amp; Eng</span><span class="nm">Solution &amp; costing</span></div>
+        <div class="stage sales"><span class="own">Sales</span><span class="nm">Price &amp; close</span></div>
+        <div class="stage award"><span class="own">Boundary</span><span class="nm">Award / PO</span></div>
+        <div class="stage proj"><span class="own">Projects</span><span class="nm">Delivery</span></div>
+      </div>
+
+      <div class="transfer">
+        <h4>What transfers to Projects at the PO</h4>
+        <div class="chips">
+          <span class="chip">Approved supplier &amp; commercial terms</span>
+          <span class="chip">Final BOQ &amp; technical specification</span>
+          <span class="chip">Agreed costing basis</span>
+          <span class="chip">Equivalence &amp; compliance documents</span>
+          <span class="chip">Drawings &amp; datasheets</span>
+        </div>
+      </div>
+
+      <div class="post-award">
+        <div class="pa-col retain">
+          <h4>Product &amp; Engineering retains</h4>
+          <ul>
+            <li>The supplier and principal relationship</li>
+            <li>Technical authority over the equipment</li>
+            <li>Specification and variation control</li>
+            <li>Warranty and claims handling with the supplier</li>
+          </ul>
+        </div>
+        <div class="pa-col own">
+          <h4>Projects owns from award</h4>
+          <ul>
+            <li>Procurement execution and PO placement</li>
+            <li>Schedule, budget and site delivery</li>
+            <li>Installation and commissioning</li>
+            <li>Project management and customer delivery</li>
+          </ul>
+        </div>
+      </div>
+      <p class="lc-summary">The PO transfers <b>delivery</b> — not the supplier relationship. Product &amp; Engineering stays the technical and commercial authority on the equipment; Projects runs the project.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="lines">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The lines</div>
+      <h2>What this function is — and isn't.</h2>
+      <p>Three boundaries stated up front, so they don't quietly re-blur once the structure is approved.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card reveal"><span class="tag">Peer, not report</span><h3>Alongside Sales — not under it</h3><p>Product sets the cost basis and the margin floor; Sales sets the final price within those guardrails and owns the customer. Two disciplines, one clean handoff. The function reports to the COO.</p></div>
+      <div class="card reveal"><span class="tag">Scope ends at award</span><h3>No project management</h3><p>The function does not run delivery, sites or commissioning. At PO, scope transfers cleanly to Projects. Pre-sales design and post-award execution are not the same job.</p></div>
+      <div class="card reveal"><span class="tag">Out of scope</span><h3>Stripped of the misfits</h3><p>Regulatory licence renewals — PEC, AEDB, ADB — return to compliance. The function owns product and engineering, not paperwork that was never its own.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="funding">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How it's funded</div>
+      <h2>An enabling function, funded by the teams it enables.</h2>
+      <p>Product &amp; Engineering is a shared-services cost centre, not a revenue line. Its cost should not sit as standalone overhead on one P&amp;L — it should be allocated across the business units that benefit from it, so the dependency is visible and the function isn't read as discretionary overhead.</p>
+    </div>
+    <div class="fund-card reveal">
+      <span class="tag">The model</span>
+      <h3>Equal split — fixed and simple</h3>
+      <p>The department's cost is divided in equal, fixed shares across the benefiting units — Sales, Projects and the sector business units. The split is set once and reviewed annually, not recalculated month to month. It spreads the cost fairly enough, makes every team a stakeholder in the function, and adds zero ongoing analysis or administrative overhead.</p>
+      <div class="why-not"><b>Why not usage-based?</b> Tracking and reconciling each unit's consumption every month adds recurring hassle that outweighs the marginal gain in fairness. A flat, fixed split keeps funding a non-event.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="build">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The build</div>
+      <h2>Phase it. Prove it. Scale it.</h2>
+      <p>The optimum is the target, not a day-one demand. Stand the core up first, staffed from existing PPS people, and add depth as volume justifies it. Each step below carries its action points — the specific tasks, who owns them, and what they produce.</p>
+    </div>
+
+    <div class="next-actions reveal">
+      <div class="na-tag">▸ Do this next — on approval</div>
+      <ol>
+        <li>COO approves the structure and the equal-split funding model.</li>
+        <li>Confirm which PPS members fill the core roles — Engineering Manager, Solutions Engineer, Commercial Coordinator.</li>
+        <li>Finalise and HR-approve the nine job descriptions.</li>
+        <li>Publish the revised operating note under the SPOC directive.</li>
+        <li>Brief Sales, Projects and the business units on the tiered engagement model.</li>
+      </ol>
+    </div>
+
+    <div class="reveal">
+      <div class="step">
+        <div class="sn">STEP 01</div>
+        <div>
+          <h3>Stand up the core</h3>
+          <p class="why">Get the function operational with the minimum team that can run the SPOC mandate, staffed from existing PPS people — no new hiring needed to start.</p>
+          <ul class="action-points">
+            <li class="ap"><div class="task">Approve the structure and equal-split funding</div><div class="meta"><b>Owner:</b> COO · <b>Output:</b> signed operating structure</div></li>
+            <li class="ap"><div class="task">Slot the core roles from the PPS team</div><div class="meta"><b>Owner:</b> Engineering Manager + HR · <b>Output:</b> named core team</div></li>
+            <li class="ap"><div class="task">Finalise and approve the nine job descriptions</div><div class="meta"><b>Owner:</b> Engineering Manager + HR · <b>Output:</b> signed JD pack</div></li>
+            <li class="ap"><div class="task">Publish the operating note and tiered engagement model</div><div class="meta"><b>Owner:</b> Engineering Manager · <b>Output:</b> circular issued</div></li>
+            <li class="ap"><div class="task">Stand up the quotation and engagement log in the dashboard</div><div class="meta"><b>Owner:</b> Systems &amp; Data · <b>Output:</b> live system of record</div></li>
+            <li class="ap"><div class="task">Brief Sales, Projects and the business units</div><div class="meta"><b>Owner:</b> Engineering Manager · <b>Output:</b> rollout communicated</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="sn">STEP 02</div>
+        <div>
+          <h3>Add product-line depth</h3>
+          <p class="why">Bring on the product specialists as supplier volume and bid load justify them, line by line — depth where the work actually is.</p>
+          <ul class="action-points">
+            <li class="ap"><div class="task">Define the volume and bid-load triggers for each specialist</div><div class="meta"><b>Owner:</b> Engineering Manager · <b>Output:</b> agreed hiring triggers</div></li>
+            <li class="ap"><div class="task">Assign or recruit the Power Generation specialist first</div><div class="meta"><b>Owner:</b> Engineering Manager + HR · <b>Output:</b> line fully owned</div></li>
+            <li class="ap"><div class="task">Then Critical &amp; DC Power, then Renewables &amp; Storage</div><div class="meta"><b>Owner:</b> Engineering Manager + HR · <b>Output:</b> full product coverage</div></li>
+            <li class="ap"><div class="task">Onboard each specialist against the supplier portfolio</div><div class="meta"><b>Owner:</b> Engineering Manager · <b>Output:</b> specialist productive</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="sn">STEP 03</div>
+        <div>
+          <h3>Full enablement</h3>
+          <p class="why">Mature the knowledge and systems layer so the function scales without depending on individuals.</p>
+          <ul class="action-points">
+            <li class="ap"><div class="task">Stand up the central library and certification tracker</div><div class="meta"><b>Owner:</b> Documentation &amp; Training · <b>Output:</b> managed repository</div></li>
+            <li class="ap"><div class="task">Schedule supplier training and certifications</div><div class="meta"><b>Owner:</b> Documentation &amp; Training · <b>Output:</b> certified team</div></li>
+            <li class="ap"><div class="task">Migrate the dashboard to the hosted platform</div><div class="meta"><b>Owner:</b> Systems &amp; Data · <b>Output:</b> shared system of record</div></li>
+            <li class="ap"><div class="task">Formalise the annual funding-split review</div><div class="meta"><b>Owner:</b> Engineering Manager + Finance · <b>Output:</b> agreed allocation</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="coo-note reveal">Lean or expanded is the COO's call. This document defines the optimum so the trade-offs of compressing it are explicit, not accidental.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span>Prepared by <b>Ali Naqvi</b> · Product &amp; Engineering · Hitech Networks (Pvt.) Ltd.</span>
+      <span>Draft for COO review · June 2026</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="jdOverlay" role="dialog" aria-modal="true" aria-labelledby="jdTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeJD()" aria-label="Close job description">&times;</button>
+    <div class="jd-tag" id="jdTag"></div>
+    <h2 id="jdTitle"></h2>
+    <div class="jd-meta" id="jdMeta"></div>
+    <div id="jdBody"></div>
+  </div>
+</div>
+
+<script>
+  const JDS = {
+    em:{tag:"Lead · Product & Engineering",title:"Engineering Manager",who:"Department Head",reportsTo:"Chief Operating Officer (COO)",
+      purpose:"Lead the Product & Engineering department as HNL's central interface to principals and suppliers. Own product and supplier strategy, commercial governance and the technical solution engine across all energy product lines — from supplier through to award handoff.",
+      responsibilities:["Set supplier and product strategy across all categories and own principal-level relationships and negotiation.","Approve pricing, cost basis and margin floors, and govern the tiered supplier-engagement model.","Lead bid technical strategy and major customer proposals in support of Sales.","Build, develop and lead the department; define roles and capability plans.","Maintain the product roadmap, market intelligence and competitive analysis.","Chair escalations per the matrix and present a unified commercial position to suppliers."],
+      interfaces:"Reports to the COO. Peer to Sales (supplies cost and solution) and Projects (handoff at award). Owns the relationship with all principals and suppliers. Works with HR on team build.",
+      qualifications:"BE/BSc in Electrical or Mechanical Engineering; PEC registered. 10+ years in power systems and energy products spanning technical sales, product and supplier management, with a proven record in principal/supplier negotiation and team leadership.",
+      kpis:["Consolidated supplier leverage — improved pricing and commercial terms.","Win-rate on supported bids and proposals.","Margin discipline held against discounting pressure.","Team capability built; zero uncoordinated supplier contact."]},
+
+    pg:{tag:"Product Management",title:"Product Specialist",who:"Power Generation",reportsTo:"Engineering Manager",
+      purpose:"Own the power generation line end-to-end — diesel generating sets, switchgear and ATS/synchronisation — including working-level supplier relationships, product depth, pricing input and competitive intelligence.",
+      responsibilities:["Maintain the DG and switchgear portfolio and supplier catalogue (e.g. Tellhow, Cummins, Leroy-Somer, DSE).","Manage working-level supplier engagement and quotations for the line.","Provide product selection, sizing guidance and technical input on bids.","Keep the line's pricing and cost basis current and accurate.","Track competitors and market movement on power generation.","Feed roadmap and portfolio decisions to the Engineering Manager."],
+      interfaces:"Reports to the Engineering Manager. Works with Applications Engineering (sizing), the Commercial Coordinator (quotes), Sales (technical input) and line suppliers.",
+      qualifications:"BE/BSc in Electrical or Mechanical Engineering; PEC registration preferred. 4–7 years with diesel gensets and LV switchgear; familiarity with ISO 8528 and ACB/breaker protection.",
+      kpis:["Portfolio accuracy and currency.","Quotation turnaround for the line.","Competitive win contribution.","Supplier terms and pricing secured."]},
+
+    dc:{tag:"Product Management",title:"Product Specialist",who:"Critical & DC Power",reportsTo:"Engineering Manager",
+      purpose:"Own the critical and DC power line end-to-end — UPS systems, rectifiers, batteries, telecom power and DC systems — including supplier relationships, product depth, pricing and competitive intelligence.",
+      responsibilities:["Maintain the UPS, rectifier, battery and DC-power portfolio and supplier catalogue.","Manage working-level supplier engagement and quotations for the line.","Advise on battery chemistry and sizing (e.g. NiCd vs LiFePO4) and DC system design.","Keep the line's pricing and cost basis current.","Track competitors and technology trends in critical power.","Feed roadmap and portfolio decisions to the Engineering Manager."],
+      interfaces:"Reports to the Engineering Manager. Works with Applications Engineering, the Commercial Coordinator, Sales and line suppliers.",
+      qualifications:"BE/BSc in Electrical Engineering; PEC registration preferred. 4–7 years with UPS, rectifier, battery or telecom/DC power systems.",
+      kpis:["Portfolio accuracy and currency.","Quotation turnaround for the line.","Competitive win contribution.","Supplier terms and pricing secured."]},
+
+    rs:{tag:"Product Management",title:"Product Specialist",who:"Renewables & Storage",reportsTo:"Engineering Manager",
+      purpose:"Own the renewables and storage line end-to-end — solar PV, BESS and hybrid systems — including supplier relationships, product depth, pricing and competitive intelligence.",
+      responsibilities:["Maintain the solar, BESS and hybrid portfolio and supplier catalogue.","Manage working-level supplier engagement and quotations for the line.","Advise on PV sizing, storage configuration and hybrid system design.","Keep the line's pricing and cost basis current.","Track AEDB requirements, incentives and competitor activity.","Feed roadmap and portfolio decisions to the Engineering Manager."],
+      interfaces:"Reports to the Engineering Manager. Works with Applications Engineering, the Commercial Coordinator, Sales and line suppliers.",
+      qualifications:"BE/BSc in Electrical Engineering; PEC registration preferred. 4–7 years with solar PV and/or battery energy storage; AEDB process familiarity.",
+      kpis:["Portfolio accuracy and currency.","Quotation turnaround for the line.","Competitive win contribution.","Supplier terms and pricing secured."]},
+
+    se:{tag:"Applications Engineering",title:"Solutions Engineer",who:"Lead",reportsTo:"Engineering Manager",
+      purpose:"Lead the pre-sales technical engine — system design, sizing, BOQs, single-line diagrams, technical proposals and equivalence documents — across all product lines, and mentor the Applications Engineer.",
+      responsibilities:["Produce solution designs, sizing and BOQs across the product lines.","Prepare technical proposals and bid technical content.","Author equivalence and technical comparison documents to defend HNL's offer honestly.","Ensure technical accuracy and standards compliance (ISO 8528, IEC, EN).","Review the Applications Engineer's output and enforce document hygiene.","Present technically to customers in support of Sales."],
+      interfaces:"Reports to the Engineering Manager. Works with Product Specialists, Sales (proposals) and Projects (design handoff). Mentors the Applications Engineer.",
+      qualifications:"BE/BSc in Electrical or Mechanical Engineering; PEC registered. 6–8 years in power-systems design and applications; strong on standards, single-line diagrams and sizing.",
+      kpis:["Proposal quality and technical accuracy.","Bid technical compliance.","Turnaround on solutions and BOQs.","Equivalence documents that hold up to scrutiny."]},
+
+    ae:{tag:"Applications Engineering",title:"Applications Engineer",who:"Pre-sales support",reportsTo:"Solutions Engineer (Lead)",
+      purpose:"Support the pre-sales technical work — sizing, BOQs, drawings, datasheets and proposal preparation — across the product lines.",
+      responsibilities:["Prepare sizing and BOQs under the lead's direction.","Compile datasheets and assemble proposal documents.","Maintain drawings, single-line templates and the document library.","Assist with equivalence documentation and tender technical responses.","Catch template placeholders, errors and contradictory part numbers before review."],
+      interfaces:"Reports to the Solutions Engineer (Lead). Works with Product Specialists and the Commercial Coordinator.",
+      qualifications:"BE/BSc in Electrical or Mechanical Engineering; PEC registration or in process. 2–4 years; competent in sizing tools and AutoCAD/single-line drafting.",
+      kpis:["Output accuracy.","Turnaround on supporting documents.","Document hygiene — no placeholders or errors.","Reliability of support to the lead."]},
+
+    cc:{tag:"Commercial & Supplier Ops",title:"Commercial Coordinator",who:"Quotes · pricing · records",reportsTo:"Engineering Manager",
+      purpose:"Run the commercial machinery of the function — quotation intake and tracking, pricing-database upkeep, supplier registrations and documentation — so supplier engagement is logged, consistent and auditable.",
+      responsibilities:["Receive and track RFQs and quotations through the system end-to-end.","Maintain the master pricing database and commercial terms.","Manage supplier registrations, approvals and indexation activities.","Keep supplier documentation current and complete.","Maintain the engagement log as the record of all supplier contact."],
+      interfaces:"Reports to the Engineering Manager. Works with Product Specialists, suppliers (commercial admin) and Sales/BUs (request intake).",
+      qualifications:"Bachelor's in engineering, commerce or supply chain. 3–5 years in procurement or sales coordination; ERP/CRM experience (Zoho, SAP); strong document discipline.",
+      kpis:["Quotation-tracking completeness.","Pricing-database currency.","Supplier-registration timeliness.","Integrity of the engagement log."]},
+
+    sd:{tag:"Commercial & Supplier Ops",title:"Systems & Data",who:"System of record",reportsTo:"Engineering Manager",
+      purpose:"Own the function's digital system of record — the PPS dashboard and the pricing/quotation data — keeping it clean, current and usable as the single source of truth.",
+      responsibilities:["Maintain and develop the dashboard (quotation, engagement-log and pricing modules).","Ensure data hygiene across the dashboard, CRM and ERP.","Produce reports and views for the Engineering Manager and leadership.","Lead the migration to the hosted platform.","Safeguard data integrity and access."],
+      interfaces:"Reports to the Engineering Manager (commercial ops). Works with the Commercial Coordinator, IT and the Product Specialists as data owners.",
+      qualifications:"Bachelor's in IT, Computer Science or Engineering. 2–4 years in data or systems work; SQL and reporting; familiarity with the dashboard stack (Electron / React / TypeScript / SQLite) is a strong plus.",
+      kpis:["Data accuracy and system uptime.","Reporting quality and usefulness.","Successful platform migration.","Adoption of the system of record across the team."]},
+
+    dt:{tag:"Knowledge & Enablement",title:"Documentation & Training",who:"Knowledge custodian",reportsTo:"Engineering Manager",
+      purpose:"Be the custodian of the function's knowledge — the central technical library — and coordinate product training and supplier certifications to build organisational capability.",
+      responsibilities:["Maintain the central repository of datasheets, manuals, certifications and technical documentation.","Run version control on product documents and templates.","Coordinate product training programmes and knowledge-sharing sessions.","Arrange supplier-led certifications and workshops.","Identify competency gaps with the Engineering Manager and plan to close them."],
+      interfaces:"Reports to the Engineering Manager. Works with Product Specialists, suppliers (training), HR and the Sales/Projects/Operations training audiences.",
+      qualifications:"Bachelor's degree. 2–4 years in technical documentation or training coordination; strong organisation and a technical-writing aptitude.",
+      kpis:["Library completeness and currency.","Training delivered against plan.","Certifications achieved.","Ramp time for new staff."]}
+  };
+
+  function renderList(arr){return '<ul>'+arr.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>';}
+  function openJD(id){
+    var d=JDS[id]; if(!d) return;
+    document.getElementById('jdTag').textContent=d.tag;
+    document.getElementById('jdTitle').textContent=d.who?(d.title+' — '+d.who):d.title;
+    document.getElementById('jdMeta').innerHTML='<span>Reports to:</span> '+d.reportsTo;
+    var b='';
+    b+='<div class="jd-sec"><h4>Purpose</h4><p>'+d.purpose+'</p></div>';
+    b+='<div class="jd-sec"><h4>Key responsibilities</h4>'+renderList(d.responsibilities)+'</div>';
+    b+='<div class="jd-sec"><h4>Interfaces</h4><p>'+d.interfaces+'</p></div>';
+    b+='<div class="jd-sec"><h4>Qualifications &amp; experience</h4><p>'+d.qualifications+'</p></div>';
+    b+='<div class="jd-sec"><h4>Success measures</h4>'+renderList(d.kpis)+'</div>';
+    document.getElementById('jdBody').innerHTML=b;
+    var ov=document.getElementById('jdOverlay');
+    ov.classList.add('open'); document.body.style.overflow='hidden';
+    ov.scrollTop=0;
+    var c=document.querySelector('.modal-close'); if(c) c.focus();
+  }
+  function closeJD(){document.getElementById('jdOverlay').classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('jdOverlay').addEventListener('click',function(e){if(e.target.id==='jdOverlay')closeJD();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeJD();});
+  document.querySelectorAll('[data-jd]').forEach(function(c){
+    c.addEventListener('click',function(){openJD(c.dataset.jd);});
+    c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openJD(c.dataset.jd);}});
+  });
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return;var el=e.target,to=+el.dataset.to;cio.unobserve(el);
+    if(reduce){el.textContent=to;return;}
+    var cur=0,step=Math.max(1,Math.round(to/24));
+    var t=setInterval(function(){cur+=step;if(cur>=to){cur=to;clearInterval(t);}el.textContent=cur;},34);
+  });},{threshold:.5});
+  document.querySelectorAll('.num[data-to]').forEach(function(el){cio.observe(el);});
+</script>
+</body>
+</html>
